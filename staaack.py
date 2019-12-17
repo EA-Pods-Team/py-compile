@@ -1,6 +1,4 @@
-import dis
-import re
-import hashlib
+import SimpleCompiler as sc
 
 
 def main():
@@ -15,62 +13,54 @@ def main():
     q = subfcn(x)
     return x*y*q
 
-def simpleStuff():
+def assignment():
     x = 1
     y = 1.9
-    p = 5*x
-    z = (1,1.5*y,9)
+    p = 5
+    z = (1,1.5,9)
     q = [1,2,3,4,5]
     r = z[0]
 
-#dis.dis(main)
+def arithmetic():
+    x = 1
+    y = 2
+    x+y
+    x-y
+    x*y
+    x/y
 
-def LOAD_CONST(pyInstr, state):
-    def checkVal(val):
-        if(isinstance(val,int)):
-            return ('PUSHINT %d' % val,)
-        elif(isinstance(val,float)):
-            return ('PUSHFLOAT %10.10f' % val,)
-        elif(isinstance(val,tuple)):
-            vals = ()
-            for subitem in val:
-                vals += checkVal(subitem)
-            return vals
-        else: return ()
-    return state + checkVal(pyInstr.argval)
+def logops():
+    a = 5
+    b = 9
+    a == b
+    a != b
+    a > b
+    a < b
+    a >= b
+    a <= b
+    (not a)
 
-def LOAD_FAST(pyInstr,state):
-    return state + ('PUSHVAR %s' % varNameEncode(pyInstr.argval),)
-
-def STORE_FAST(pyInstr,state):
-    # need to modify this to work for lists and tuples
-    # need to add variable mapping thing in the state model
-    return ('PUSHVAR %s # %s' % (varNameEncode(pyInstr.argval), pyInstr.argval), ) + state + ('ASSIGN',)
-
-def SIMPLE(name):
-    return lambda pyInstr,state: state + (name,)
-
-def varNameEncode(var):
-    return hashlib.md5(var.encode()).hexdigest()
-
-instrMap = {
-    'LOAD_CONST': LOAD_CONST,
-    'STORE_FAST': STORE_FAST,
-    'LOAD_FAST' : LOAD_FAST,
-    'BINARY_MULTIPLY': SIMPLE('MULT')
-}
-
-state = ()
-for instr in dis.Bytecode(simpleStuff):
-    
-    if(instr.starts_line != None):
-        [print(line) for line in state]
-        state = ()
-    print(instr)
-    if(instr.opname in instrMap):
-        state = instrMap[instr.opname](instr, state)
+def simpleIf():
+    a = 5
+    b = 9
+    if(a == 2):
+        c = 5
         
-    if(instr.opname== 'RETURN_VALUE'):
-        [print(line) for line in state]
+
+def flowops():
+    a = 5
+    b = 9
+    if(a == 2):
+        c = 5
+    elif(b == 3):
+        d = 6
+    else:
+        e = 7
+    #(a or b)
+    #(a and b)
+
+#sc.parse(arithmetic)
+#sc.parse(logops)
+sc.parse(simpleIf)
 
 
