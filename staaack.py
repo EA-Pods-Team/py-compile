@@ -45,6 +45,7 @@ def simpleIf():
     b = 9
     if(a == 2):
         c = 5
+    d = 6
         
 
 def flowops():
@@ -56,11 +57,13 @@ def flowops():
         d = 6
     else:
         e = 7
+    
     #(a or b)
     #(a and b)
 
 #sc.parse(arithmetic)
 #sc.parse(logops)
-sc.parse(simpleIf)
+#sc.parse(simpleIf)
+sc.parse(flowops)
 
 
